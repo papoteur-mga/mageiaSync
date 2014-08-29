@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mageiaSyncDBprefs.ui'
 #
-# Created: Tue Aug 26 07:24:49 2014
+# Created: Fri Aug 29 10:56:43 2014
 #      by: PyQt5 UI code generator 5.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -31,6 +31,7 @@ class Ui_prefsDialog(object):
         self.label.setObjectName("label")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label)
         self.release = QtWidgets.QLineEdit(self.formLayoutWidget)
+        self.release.setToolTip("")
         self.release.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.release.setObjectName("release")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.release)
@@ -49,6 +50,7 @@ class Ui_prefsDialog(object):
         self.label_3.setObjectName("label_3")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_3)
         self.password = QtWidgets.QLineEdit(self.formLayoutWidget)
+        self.password.setToolTip("")
         self.password.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.password.setObjectName("password")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.password)
@@ -66,6 +68,7 @@ class Ui_prefsDialog(object):
         self.label_5.setObjectName("label_5")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_5)
         self.selectDest = QtWidgets.QPushButton(self.formLayoutWidget)
+        self.selectDest.setToolTip("")
         self.selectDest.setObjectName("selectDest")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.selectDest)
         self.label_6 = QtWidgets.QLabel(self.formLayoutWidget)
@@ -73,6 +76,7 @@ class Ui_prefsDialog(object):
         self.label_6.setObjectName("label_6")
         self.formLayout.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.label_6)
         self.bwl = QtWidgets.QSpinBox(self.formLayoutWidget)
+        self.bwl.setToolTip("")
         self.bwl.setMaximum(100000)
         self.bwl.setSingleStep(50)
         self.bwl.setObjectName("bwl")
@@ -89,12 +93,18 @@ class Ui_prefsDialog(object):
     def retranslateUi(self, prefsDialog):
         _translate = QtCore.QCoreApplication.translate
         prefsDialog.setWindowTitle(_translate("prefsDialog", "Preferences"))
+        self.label.setToolTip(_translate("prefsDialog", "Give the release name like \"mageia5-alpha2\""))
         self.label.setText(_translate("prefsDialog", "Release:"))
+        self.label_2.setToolTip(_translate("prefsDialog", "User name to acces the repository. Only for testing repository."))
         self.label_2.setText(_translate("prefsDialog", "User:"))
+        self.label_3.setToolTip(_translate("prefsDialog", "Associated with user, if needed"))
         self.label_3.setText(_translate("prefsDialog", "Password:"))
+        self.label_4.setToolTip(_translate("prefsDialog", "Source repository. Keep void to use the testing repo."))
         self.label_4.setText(_translate("prefsDialog", "Source:"))
+        self.label_5.setToolTip(_translate("prefsDialog", "The local directory where you store ISOs. Will sync your existent ISOs already present."))
         self.label_5.setText(_translate("prefsDialog", "Destination:"))
         self.selectDest.setText(_translate("prefsDialog", "PushButton"))
+        self.label_6.setToolTip(_translate("prefsDialog", "Set to zero if you don\'t want apply limit."))
         self.label_6.setText(_translate("prefsDialog", "Bandwith limit (kB/s):"))
         self.label_7.setText(_translate("prefsDialog", "Define parameters which are stored and used for rsync"))
 

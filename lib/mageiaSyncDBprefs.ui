@@ -47,6 +47,9 @@
    <layout class="QFormLayout" name="formLayout">
     <item row="1" column="0">
      <widget class="QLabel" name="label">
+      <property name="toolTip">
+       <string>Give the release name like &quot;mageia5-alpha2&quot;</string>
+      </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
@@ -57,6 +60,9 @@
     </item>
     <item row="1" column="1">
      <widget class="QLineEdit" name="release">
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
@@ -64,6 +70,9 @@
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="label_2">
+      <property name="toolTip">
+       <string>User name to acces the repository. Only for testing repository.</string>
+      </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
@@ -75,7 +84,7 @@
     <item row="2" column="1">
      <widget class="QLineEdit" name="user">
       <property name="toolTip">
-       <string extracomment="User name to acces the repository"/>
+       <string/>
       </property>
       <property name="statusTip">
        <string/>
@@ -87,6 +96,9 @@
     </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_3">
+      <property name="toolTip">
+       <string>Associated with user, if needed</string>
+      </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
@@ -97,6 +109,9 @@
     </item>
     <item row="3" column="1">
      <widget class="QLineEdit" name="password">
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
@@ -104,6 +119,9 @@
     </item>
     <item row="4" column="0">
      <widget class="QLabel" name="label_4">
+      <property name="toolTip">
+       <string>Source repository. Keep void to use the testing repo.</string>
+      </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
@@ -115,7 +133,7 @@
     <item row="4" column="1">
      <widget class="QLineEdit" name="location">
       <property name="toolTip">
-       <string extracomment="Source repository"/>
+       <string/>
       </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
@@ -124,6 +142,9 @@
     </item>
     <item row="5" column="0">
      <widget class="QLabel" name="label_5">
+      <property name="toolTip">
+       <string>The local directory where you store ISOs. Will sync your existent ISOs already present.</string>
+      </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
@@ -134,6 +155,9 @@
     </item>
     <item row="5" column="1">
      <widget class="QPushButton" name="selectDest">
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="text">
        <string>PushButton</string>
       </property>
@@ -141,6 +165,9 @@
     </item>
     <item row="6" column="0">
      <widget class="QLabel" name="label_6">
+      <property name="toolTip">
+       <string>Set to zero if you don't want apply limit.</string>
+      </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
@@ -151,6 +178,9 @@
     </item>
     <item row="6" column="1">
      <widget class="QSpinBox" name="bwl">
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="maximum">
        <number>100000</number>
       </property>
