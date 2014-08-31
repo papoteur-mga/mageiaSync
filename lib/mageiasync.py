@@ -77,6 +77,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         self.rsyncThread = mageiaSyncExt.syncThread(self)    # create a thread to launch rsync
         self.rsyncThread.progressSignal.connect(self.setProgress) 
         self.rsyncThread.speedSignal.connect(self.setSpeed) 
+        self.rsyncThread.sizeSignal.connect(self.setSize) 
         self.rsyncThread.remainSignal.connect(self.setRemain) 
         self.rsyncThread.endSignal.connect(self.syncEnd) 
         self.rsyncThread.lvM.connect(self.lvMessage)
@@ -85,7 +86,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
  #      Model for list view in a table       
         self.model = QStandardItemModel(0, 6, self)
-        headers=["Directory","Name","Completion","Date","SHA1","MD5"]
+        headers=["Directory","Name","Size","Date","SHA1","MD5"]
         i=0
         for label in headers:
             self.model.setHeaderData(i, QtCore.Qt.Horizontal,label )
@@ -93,8 +94,8 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
 #       settings for the list view
         self.localList.setModel(self.model)
-        self.localList.setColumnWidth(0,250)
-        self.localList.setColumnWidth(1,250)
+        self.localList.setColumnWidth(0,220)
+        self.localList.setColumnWidth(1,220)
         self.localList.horizontalHeader().setStretchLastSection(True)
         # settings for local iso names management
         self.localListNames=[]
@@ -107,19 +108,23 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     #   Add an remote ISO in list
          self.listIsos.addItem(iso)
 
-    def localAdd(self, path,iso):
+    def localAdd(self, path,iso,isoSize):
         #   Add an entry in local ISOs list, with indications about checking
         itemPath=QStandardItem(path)
         itemIso=QStandardItem(iso)
-        itemCompletion=QStandardItem("0%")
-        itemCompletion.setTextAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignHCenter)
+        if isoSize==0:
+            itemSize=QStandardItem('--')
+        else:
+            formatedSize='{:n}'.format(isoSize) #.replace(","," ")
+            itemSize=QStandardItem(formatedSize)
+        itemSize.setTextAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignHCenter)
         itemDate=QStandardItem("--/--/--")
         itemDate.setTextAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignHCenter)
         itemCheck1=QStandardItem("--")
         itemCheck1.setTextAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignHCenter)
         itemCheck5=QStandardItem("--")
         itemCheck5.setTextAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignHCenter)
-        self.model.appendRow([itemPath,itemIso,itemCompletion,itemDate, itemCheck1, itemCheck5,])
+        self.model.appendRow([itemPath,itemIso,itemSize,itemDate, itemCheck1, itemCheck5,])
         self.localListNames.append([path,iso])
     
     def setProgress(self, value):
@@ -129,6 +134,10 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     def setSpeed(self, value):
         #   Update the speed field
         self.speedLCD.display(value)
+
+    def setSize(self, value):
+        #   Update the size field
+        self.Lsize.setText(str(value)+" bytes")
     
     def setRemain(self,remainTime):
         content=QtCore.QTime.fromString(remainTime,"h:mm:ss")
@@ -143,6 +152,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         self.checkThreads[-1].md5Signal.connect(self.md5Check)
         self.checkThreads[-1].sha1Signal.connect(self.sha1Check)
         self.checkThreads[-1].dateSignal.connect(self.dateCheck)
+        self.checkThreads[-1].sizeSignal.connect(self.sizeUpdate)
         self.checkThreads[-1].checkStartSignal.connect(self.checkStart)
         self.checkThreads[-1].start()
 
@@ -179,6 +189,11 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             val="Failed"
             row=check
         self.model.setData(self.model.index(row, 3, QtCore.QModelIndex()), val)
+
+    def sizeUpdate(self,signal,isoSize):
+        col=(int)(signal/100)
+        row=signal-col*100
+        self.model.setData(self.model.index(row, col, QtCore.QModelIndex()), '{:n}'.format(isoSize))
         
     def syncEnd(self, rc):
         if rc==1:
@@ -356,7 +371,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
                 item=self.model.findItems(name,QtCore.Qt.MatchExactly,1)[0]
             except:
                 #   Remote ISO is not yet in local directory. We add it in localList and create the directory
-                self.localAdd(path,name)
+                self.localAdd(path,name,0)
                 basedir=QtCore.QDir(self.destination)
                 basedir.mkdir(path)
                 item=self.model.findItems(name,QtCore.Qt.MatchExactly,1)[0]
@@ -387,8 +402,8 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         list=self.fillList.getList()
 
         list=self.fillList.getLocal()
-        for path,iso in list:
-            self.localAdd(path,iso)
+        for path,iso,isoSize in list:
+            self.localAdd(path,iso, isoSize)
         self.fillList.quit()
         self.lw.hide()
         

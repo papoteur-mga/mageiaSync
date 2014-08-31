@@ -8,13 +8,14 @@ Created on Sat Jul 12 21:42:56 2014
 import re, os
 
 from subprocess import Popen, PIPE
-from PyQt5 import QtCore
+from PyQt5.QtCore import QDir, QFileInfo,pyqtSignal,QThread
 
-class checkThread(QtCore.QThread):
-    md5Signal = QtCore.pyqtSignal(int)
-    sha1Signal= QtCore.pyqtSignal(int)
-    dateSignal=QtCore.pyqtSignal(int)
-    checkStartSignal=QtCore.pyqtSignal(int)
+class checkThread(QThread):
+    md5Signal = pyqtSignal(int)
+    sha1Signal= pyqtSignal(int)
+    dateSignal=pyqtSignal(int)
+    sizeSignal=pyqtSignal(int,int)
+    checkStartSignal=pyqtSignal(int)
 
     def __init__(self, parent=None):
         super(checkThread, self).__init__(parent)
@@ -45,18 +46,28 @@ class checkThread(QtCore.QThread):
         return False
         
     def processDate(self):
-#        import  datetime as datetime
-#        try:
-#            dateFile=open(str(self.destination)+'/DATE.txt','r')
-#        except:
-#            return False
-#        refDate=dateFile.readline()
-#        info=os.path.getmtime(str(self.destination)+'/'+self.name)
-#        fileDate= (datetime.fromtimestamp(info)).strftime("%c")
-#        if (fileDate==refDate):
-#            return True
-#        else:
-        return False
+        import  datetime as datetime
+        import time
+        import locale
+        locale.setlocale(locale.LC_ALL, 'C')
+        #   Get and process the date from the file DATE.txt
+        try:
+            dateFile=open(str(self.destination)+'/'+self.path+'/DATE.txt','r')
+        except:
+            return False
+        refDate=dateFile.readline()
+        lits=re.split("\W+", refDate)
+        nums=re.findall("([0-9]+)", refDate)
+        refTime=re.findall("[0-9]*:[0-9]*:[0-9]*", refDate)[0]
+        refDay=eval(nums[0])
+        refYear=eval(nums[-1])
+        refMonth=time.strptime(lits[1], "%b").tm_mon
+        # Date of file
+        info=datetime.datetime.fromtimestamp(os.path.getmtime(str(self.destination)+'/'+self.path+'/'+self.name))
+        if(refDay==info.day and refMonth==info.month and refYear==info.year and refTime==info.strftime("%H:%M:%S")):
+            return True
+        else:
+            return False
         
     def setup(self, destination, path,name,isoIndex):
         self.destination=destination
@@ -65,6 +76,9 @@ class checkThread(QtCore.QThread):
         self.isoIndex=isoIndex
         
     def run(self):
+        signal=200+self.isoIndex
+        isoSize=QFileInfo(str(self.destination)+'/'+self.path+'/' +self.name).size()
+        self.sizeSignal.emit(signal, isoSize)
         signal=500+self.isoIndex
         self.checkStartSignal.emit(signal)
         checkMd5=self.processSum('md5')
@@ -80,13 +94,14 @@ class checkThread(QtCore.QThread):
         self.quit()
         
 
-class syncThread(QtCore.QThread):
-    progressSignal = QtCore.pyqtSignal(int)
-    speedSignal= QtCore.pyqtSignal(int)
-    endSignal=QtCore.pyqtSignal(int)
-    remainSignal=QtCore.pyqtSignal(str)
-    checkSignal=QtCore.pyqtSignal(int)
-    lvM=QtCore.pyqtSignal(str)
+class syncThread(QThread):
+    progressSignal = pyqtSignal(int)
+    speedSignal= pyqtSignal(int)
+    endSignal=pyqtSignal(int)
+    remainSignal=pyqtSignal(str)
+    checkSignal=pyqtSignal(int)
+    sizeSignal=pyqtSignal(int)
+    lvM=pyqtSignal(str)
 
     def __init__(self, parent=None):
         super(syncThread, self).__init__(parent)
@@ -103,13 +118,12 @@ class syncThread(QtCore.QThread):
         self.bwl=bwl    #   Bandwith limit
         
     def stop(self):
-        self.lvM.emit("Process rsync stopped")
         self.stopped=True
         try:
             self.process.terminate()
+            self.lvM.emit("Process rsync stopped")
         except:
-            print "Echec"
-            pass
+            self.lvM.emit("Process rsync already stopped")
         # Init progressbar and speed counter
         self.endSignal.emit(0)
         
@@ -123,7 +137,6 @@ class syncThread(QtCore.QThread):
                 commande=['rsync','-avHP',"--bwlimit="+str(self.bwl), iso['nameWithPath'], iso['destination']]
             else:
                 commande=['rsync','-avHP', iso['nameWithPath'], iso['destination']]
-            print commande
             try:
                 if self.password != "":
                     envir = os.environ.copy()
@@ -151,9 +164,12 @@ class syncThread(QtCore.QThread):
                         speedK=re.findall("([0-9.]*)kB/s", buf)
                         speedM=re.findall("([0-9.]*)MB/s", buf)
                         remain=re.findall("[0-9]*:[0-9]*:[0-9]*",buf)
+                        sizeB=re.findall("[1-9](?:\d{0,2})(?:,\d{3})*",buf)
                         if len(progressL) != 0:
                             progress= eval(progressL[0])
                             self.progressSignal.emit(progress)
+                            if len(sizeB) != 0:
+                               self.sizeSignal.emit(eval(sizeB[0].replace(",","")))
                         else:
                             if (len(buf) !=0):
                                 self.lvM.emit(buf.rstrip())
@@ -176,6 +192,7 @@ class syncThread(QtCore.QThread):
         self.endSignal.emit(0)
         self.speedSignal.emit(0)
         self.progressSignal.emit(0)
+        self.sizeSignal.emit(0)
         self.stopped=False
         self.list=[]
         self.quit()
@@ -198,9 +215,9 @@ def rename(directory,oldRelease,newRelease):
                     return "Success"
                 break
 
-class findIsos(QtCore.QThread):
-    endSignal=QtCore.pyqtSignal(int)
-    lvM=QtCore.pyqtSignal(str)
+class findIsos(QThread):
+    endSignal=pyqtSignal(int)
+    lvM=pyqtSignal(str)
 
     def __init__(self, parent=None):
         super(findIsos, self).__init__(parent)
@@ -220,17 +237,19 @@ class findIsos(QtCore.QThread):
         
     def run(self):
         #   Lists ISO files in local directory
-        root=QtCore.QDir(self.destination)
-        root.setFilter(QtCore.QDir.AllDirs|QtCore.QDir.NoDot|QtCore.QDir.NoDotDot)
+        root=QDir(self.destination)
+        root.setFilter(QDir.AllDirs|QDir.NoDot|QDir.NoDotDot)
         dirs=root.entryList()
         for dir in dirs:
-            sub=QtCore.QDir(self.destination+'/'+dir)
+            sub=QDir(self.destination+'/'+dir)
             sub.setNameFilters(["*.iso"])
-            sub.setFilter(QtCore.QDir.Files)
+            sub.setFilter(QDir.Files)
             local=sub.entryList()
             if len(local)!=0:
                 for iso in local:
-                    self.localList.append([dir,iso])
+                    isoSize=QFileInfo(sub.absolutePath()+'/' +iso).size()
+                    self.localList.append([dir,iso,isoSize])
+        #   List the remote directory
         commande = ['rsync', '-avHP', '--list-only',str(self.path)]
         try:
             if self.password != "":

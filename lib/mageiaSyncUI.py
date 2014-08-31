@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mageiaSyncUI.ui'
 #
-# Created: Tue Aug 26 07:24:25 2014
+# Created: Sat Aug 30 20:19:01 2014
 #      by: PyQt5 UI code generator 5.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(711, 512)
+        mainWindow.resize(862, 587)
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -54,6 +54,9 @@ class Ui_mainWindow(object):
         self.IprogressBar.setProperty("value", 24)
         self.IprogressBar.setObjectName("IprogressBar")
         self.horizontalLayout_2.addWidget(self.IprogressBar)
+        self.Lsize = QtWidgets.QLabel(self.centralwidget)
+        self.Lsize.setObjectName("Lsize")
+        self.horizontalLayout_2.addWidget(self.Lsize)
         self.speedLCD = QtWidgets.QLCDNumber(self.centralwidget)
         self.speedLCD.setObjectName("speedLCD")
         self.horizontalLayout_2.addWidget(self.speedLCD)
@@ -92,7 +95,7 @@ class Ui_mainWindow(object):
         self.verticalLayout.addWidget(self.lvText)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 711, 19))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 862, 19))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
@@ -129,6 +132,7 @@ class Ui_mainWindow(object):
         self.remoteDirLabel.setText(_translate("mainWindow", "Remote directory"))
         self.selectAll.setText(_translate("mainWindow", "Select All"))
         self.localDirLabel.setText(_translate("mainWindow", "Local directory:"))
+        self.Lsize.setText(_translate("mainWindow", "0 bytes"))
         self.label_2.setText(_translate("mainWindow", "kB/s"))
         self.label_3.setText(_translate("mainWindow", "Remaining:"))
         self.timeRemaining.setDisplayFormat(_translate("mainWindow", "H:mm:ss"))
