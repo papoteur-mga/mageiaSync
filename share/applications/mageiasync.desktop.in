@@ -1,0 +1,9 @@
+[Desktop Entry]
+_Name=MageiaSync
+_Comment=A frontend to rsync for Mageia usage
+Exec=mageiasync
+Icon=mageiasync
+StartupNotify=true
+Type=Application
+Terminal=false
+Categories=System;
