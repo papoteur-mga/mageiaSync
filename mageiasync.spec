@@ -9,11 +9,12 @@ Group:		Development/Python
 URL:		https://github.com/papoteur-mga/mageiaSync
 Source0:	https://github.com/papoteur-mga/mageiaSync/archive/mageiaSync-%{version}.tar.gz
 BuildArch:	noarch
-BuildRequires:	python3-setuptools
+BuildRequires:	python-setuptools
 
 Requires:	python-qt5-core
 Requires:	python-qt5-gui
 Requires:	python-qt5-widgets
+Requires:	python-pkg-resources
 
 %description
 A frontend to rsync for Mageia usage.
@@ -29,6 +30,7 @@ A frontend to rsync for Mageia usage.
 #Requires:	python3-qt5-core
 #Requires:	python3-qt5-gui
 #Requires:	python3-qt5-widgets
+#Requires:	python3-pkg-resources
 
 #%description -n python3-%{module}
 #A frontend to rsync for Mageia usage.
@@ -51,18 +53,18 @@ A frontend to rsync for Mageia usage.
 %install
 #pushd %{py3dir}
 #%{__python3} setup.py install --root=%{buildroot} --skip-build
-#mv %{buildroot}%{_bindir}/livestreamer %{buildroot}%{_bindir}/python3-livestreamer
+#mv %{buildroot}%{_bindir}/%{module} %{buildroot}%{_bindir}/python3-%{module}
 #popd
 
-%{__python3} setup.py install --root=%{buildroot} --skip-build
+%{__python} setup.py install --root=%{buildroot} --skip-build
 
 %files
 %doc README.rst LICENSE
 %{_bindir}/%{module}
 %{_datadir}/applications/%{module}.desktop
 %{_iconsdir}/hicolor/scalable/apps/%{module}.svg
-%{python3_sitelib}/%{module}
-%{python3_sitelib}/%{module}-%{version}-py%{py3ver}.egg-info
+%{python_sitelib}/%{module}
+%{python_sitelib}/%{module}-%{version}-py%{pyver}.egg-info
 
 #%files -n python3-%{module}
 #%doc README.rst LICENSE
