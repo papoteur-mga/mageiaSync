@@ -26,7 +26,7 @@ License
 --------
 
 This software is distributed under the terms of the
-[GNU General Public License version 3 (GPLv3)](COPYING.GPL).
+[GNU General Public License version 3 (GPLv3)](LICENSE).
 
 The [mageiaSync icon](isodumper.svg) is a combination of two images from openclipart:
 - folder-download by dannya
