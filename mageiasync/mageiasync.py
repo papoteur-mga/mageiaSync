@@ -211,39 +211,21 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     def prefsInit(self):
     #   Load the parameters at first
         params=QtCore.QSettings("Mageia","mageiaSync")
-        try:
+        self.release=params.value("release", type="QString")
             #   the parameters already initilised?
-            self.user=params.value("user", type="QString")
-        except:
+        if self.release =="":
             # Values are not yet set
             self.pd=prefsDialog()
             #   Set values which are already defined
-            try:
-                self.pd.release.setText(params.value("release", type="QString"))
-            except:
-                pass
-            try:
-                self.pd.password.setText(params.value("password", type="QString"))
-            except:
-                pass
-            try:
-                self.pd.location.setText(params.value("location", type="QString"))
-            except:
-                pass
-            try:
-                self.pd.selectDest.setText(params.value("destination", type="QString"))
-            except:
-                self.pd.selectDest.setText(QtCore.QDir.currentPath())
-            try:
-                self.pd.bwl.setText(params.value("bwl", type="QInt"))
-            except:
-                pass
-            try:
-                self.pd.password.setText(params.value("password", type="QString"))
-            except:
-                pass
+            self.pd.user.setText(params.value("user", type="QString"))
+            self.pd.password.setText(params.value("password", type="QString"))
+            self.pd.location.setText(params.value("location", type="QString"))
+            self.pd.selectDest.setText(params.value("destination", type="QString"))
+            self.pd.selectDest.setText(QtCore.QDir.currentPath())
+            self.pd.bwl.setValue(params.value("bwl", type="int"))
+            self.pd.password.setText(params.value("password", type="QString"))
             answer=self.pd.exec_()
-            if answer:                
+            if answer:
                 #   Update params
                 params=QtCore.QSettings("Mageia","mageiaSync")
                 params.setValue("release", self.pd.release.text())
