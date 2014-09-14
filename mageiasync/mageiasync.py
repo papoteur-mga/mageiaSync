@@ -240,7 +240,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 #                answer=QDialogButtonBox(QDialogButtonBox.Ok)
                 # the user must set values or default values
             self.pd.close()
-        self.release=params.value("release", type="QString")
+        self.user=params.value("user", type="QString")
         self.location=params.value("location", type="QString")
         self.password=params.value("password", type="QString")
         self.destination=params.value("destination", type="QString")
