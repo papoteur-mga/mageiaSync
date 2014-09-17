@@ -205,15 +205,13 @@ def rename(directory,oldRelease,newRelease):
         process.poll()
         while True :
             item=process.stdout.readline().rstrip()
-            print item
             process.poll()
             if process.returncode != None:
                 if process.returncode!=0:
                     item=process.stderr.readline().rstrip()
                     return 'Error ', item
-                else:
-                    return "Success"
                 break
+    return "Success in renaming"
 
 class findIsos(QThread):
     endSignal=pyqtSignal(int)
