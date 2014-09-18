@@ -80,8 +80,11 @@
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label_4">
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>Base directory</string>
       </property>
      </widget>
     </item>

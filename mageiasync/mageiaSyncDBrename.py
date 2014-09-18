@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mageiaSyncDBrename.ui'
 #
-# Created: Tue Aug 26 07:25:27 2014
+# Created: Thu Sep 18 07:30:57 2014
 #      by: PyQt5 UI code generator 5.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -44,6 +44,7 @@ class Ui_renameDialog(object):
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 0, 0, 1, 2)
         self.label_4 = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label_4.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.label_4.setObjectName("label_4")
         self.gridLayout.addWidget(self.label_4, 1, 0, 1, 1)
         self.chooseDir = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -61,6 +62,6 @@ class Ui_renameDialog(object):
         self.label.setText(_translate("renameDialog", "Old release"))
         self.label_2.setText(_translate("renameDialog", "New release"))
         self.label_3.setText(_translate("renameDialog", "This action renames the directories and names from a former version to a new one."))
-        self.label_4.setText(_translate("renameDialog", "TextLabel"))
+        self.label_4.setText(_translate("renameDialog", "Base directory"))
         self.chooseDir.setText(_translate("renameDialog", "PushButton"))
 
