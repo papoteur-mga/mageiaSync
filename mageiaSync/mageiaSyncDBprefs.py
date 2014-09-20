@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mageiaSyncDBprefs.ui'
 #
-# Created: Fri Aug 29 10:56:43 2014
+# Created: Sat Sep 20 19:26:02 2014
 #      by: PyQt5 UI code generator 5.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -30,11 +30,6 @@ class Ui_prefsDialog(object):
         self.label.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.label.setObjectName("label")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label)
-        self.release = QtWidgets.QLineEdit(self.formLayoutWidget)
-        self.release.setToolTip("")
-        self.release.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
-        self.release.setObjectName("release")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.release)
         self.label_2 = QtWidgets.QLabel(self.formLayoutWidget)
         self.label_2.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.label_2.setObjectName("label_2")
@@ -84,6 +79,10 @@ class Ui_prefsDialog(object):
         self.label_7 = QtWidgets.QLabel(self.formLayoutWidget)
         self.label_7.setObjectName("label_7")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.SpanningRole, self.label_7)
+        self.release = QtWidgets.QComboBox(self.formLayoutWidget)
+        self.release.setEditable(True)
+        self.release.setObjectName("release")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.release)
 
         self.retranslateUi(prefsDialog)
         self.buttonBox.accepted.connect(prefsDialog.accept)

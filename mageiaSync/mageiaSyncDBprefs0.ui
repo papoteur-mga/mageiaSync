@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>prefsDialog</class>
- <widget class="QDialog" name="prefsDialog">
+ <class>prefsDialog0</class>
+ <widget class="QDialog" name="prefsDialog0">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>234</height>
+    <height>171</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>200</y>
+     <y>130</y>
      <width>511</width>
      <height>32</height>
     </rect>
@@ -41,24 +41,21 @@
      <x>9</x>
      <y>9</y>
      <width>501</width>
-     <height>185</height>
+     <height>111</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
-    <item row="1" column="0">
-     <widget class="QLabel" name="label">
-      <property name="toolTip">
-       <string>Give the release name like &quot;mageia5-alpha2&quot;</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="UnitedStates"/>
-      </property>
+    <property name="fieldGrowthPolicy">
+     <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+    </property>
+    <item row="0" column="0" colspan="2">
+     <widget class="QLabel" name="label_7">
       <property name="text">
-       <string>Release:</string>
+       <string>Define parameters which are stored and used for rsync</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="1" column="0">
      <widget class="QLabel" name="label_2">
       <property name="toolTip">
        <string>User name to acces the repository. Only for testing repository.</string>
@@ -71,7 +68,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
+    <item row="1" column="1">
      <widget class="QLineEdit" name="user">
       <property name="toolTip">
        <string/>
@@ -84,7 +81,7 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="2" column="0">
      <widget class="QLabel" name="label_3">
       <property name="toolTip">
        <string>Associated with user, if needed</string>
@@ -97,17 +94,17 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="2" column="1">
      <widget class="QLineEdit" name="password">
       <property name="toolTip">
-       <string/>
+       <string>Give a value if you want to use testing repository</string>
       </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
+    <item row="3" column="0">
      <widget class="QLabel" name="label_4">
       <property name="toolTip">
        <string>Source repository. Keep void to use the testing repo.</string>
@@ -120,76 +117,13 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="3" column="1">
      <widget class="QLineEdit" name="location">
       <property name="toolTip">
-       <string/>
+       <string>Give a mirror adress with public access</string>
       </property>
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="toolTip">
-       <string>The local directory where you store ISOs. Will sync your existent ISOs already present.</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="UnitedStates"/>
-      </property>
-      <property name="text">
-       <string>Destination:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QPushButton" name="selectDest">
-      <property name="toolTip">
-       <string/>
-      </property>
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="toolTip">
-       <string>Set to zero if you don't want apply limit.</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="UnitedStates"/>
-      </property>
-      <property name="text">
-       <string>Bandwith limit (kB/s):</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QSpinBox" name="bwl">
-      <property name="toolTip">
-       <string/>
-      </property>
-      <property name="maximum">
-       <number>100000</number>
-      </property>
-      <property name="singleStep">
-       <number>50</number>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="2">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Define parameters which are stored and used for rsync</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="release">
-      <property name="editable">
-       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -201,7 +135,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>prefsDialog</receiver>
+   <receiver>prefsDialog0</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -217,7 +151,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>prefsDialog</receiver>
+   <receiver>prefsDialog0</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
