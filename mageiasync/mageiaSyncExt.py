@@ -282,3 +282,37 @@ class findIsos(QThread):
                 break
         self.endSignal.emit(0)
 
+def findRelease(releasePath, password):        #   List the remote list of releases
+        releaseList =[]
+        code=0
+        commande = ['rsync', '--list-only',str(releasePath)]
+        print commande
+        try:
+            if password != "":
+                envir = os.environ.copy()
+                envir['RSYNC_PASSWORD']=str(password)
+                process = Popen(commande, shell=False, stdout=PIPE, stderr=PIPE, env=envir)
+            else:
+                process = Popen(commande, shell=False, stdout=PIPE, stderr=PIPE)
+        except OSError as e:
+            code=1
+            return code, "Command rsync not found: "+str(e)
+        except ValueError as e:
+            code=2
+            return code,"Error in rsync parameters: "+str(e)
+        except Exception as e:
+            # Unknown error in rsync
+            code=3
+            return code, "Error in rsync: "+str(e)
+        process.poll()
+        while True :
+            item=process.stdout.readline().rstrip().decode('unicode_escape')
+            words=item.split()
+            if words !=[]:
+                print item
+                print words
+                releaseList.append(words[-1])
+            process.poll()
+            if process.returncode != None:
+                break
+        return code, releaseList

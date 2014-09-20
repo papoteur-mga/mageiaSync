@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mageiaSyncDBrename.ui'
 #
-# Created: Thu Sep 18 07:30:57 2014
+# Created: Sat Sep 20 16:27:56 2014
 #      by: PyQt5 UI code generator 5.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,9 +35,6 @@ class Ui_renameDialog(object):
         self.label_2 = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 3, 0, 1, 1)
-        self.newRelease = QtWidgets.QLineEdit(self.gridLayoutWidget)
-        self.newRelease.setObjectName("newRelease")
-        self.gridLayout.addWidget(self.newRelease, 3, 1, 1, 1)
         self.label_3 = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label_3.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.label_3.setWordWrap(False)
@@ -50,6 +47,11 @@ class Ui_renameDialog(object):
         self.chooseDir = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.chooseDir.setObjectName("chooseDir")
         self.gridLayout.addWidget(self.chooseDir, 1, 1, 1, 1)
+        self.newRelease = QtWidgets.QComboBox(self.gridLayoutWidget)
+        self.newRelease.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
+        self.newRelease.setEditable(True)
+        self.newRelease.setObjectName("newRelease")
+        self.gridLayout.addWidget(self.newRelease, 3, 1, 1, 1)
 
         self.retranslateUi(renameDialog)
         self.buttonBox.accepted.connect(renameDialog.accept)

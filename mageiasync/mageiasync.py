@@ -211,19 +211,23 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     def prefsInit(self):
     #   Load the parameters at first
         params=QtCore.QSettings("Mageia","mageiaSync")
-        self.release=params.value("release", type="QString")
-            #   the parameters already initilised?
-        if self.release =="":
+        paramRelease=""
+        try:
+            paramRelease=params.value("release", type="QString")
+            #   the parameters already initialised?
+        except:
+            pass
+        if paramRelease =="":
             # Values are not yet set
             self.pd=prefsDialog()
             #   Set values which are already defined
-            self.pd.user.setText(params.value("user", type="QString"))
-            self.pd.password.setText(params.value("password", type="QString"))
-            self.pd.location.setText(params.value("location", type="QString"))
-            self.pd.selectDest.setText(params.value("destination", type="QString"))
-            self.pd.selectDest.setText(QtCore.QDir.currentPath())
-            self.pd.bwl.setValue(params.value("bwl", type="int"))
-            self.pd.password.setText(params.value("password", type="QString"))
+#            self.pd.user.setText(params.value("user", type="QString"))
+#            self.pd.password.setText(params.value("password", type="QString"))
+#            self.pd.location.setText(params.value("location", type="QString"))
+#            self.pd.selectDest.setText(params.value("destination", type="QString"))
+#            self.pd.selectDest.setText(QtCore.QDir.currentPath())
+#            self.pd.bwl.setValue(params.value("bwl", type="int"))
+#            self.pd.password.setText(params.value("password", type="QString"))
             answer=self.pd.exec_()
             if answer:
                 #   Update params
@@ -240,6 +244,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 #                answer=QDialogButtonBox(QDialogButtonBox.Ok)
                 # the user must set values or default values
             self.pd.close()
+        self.release=params.value("release", type="QString")
         self.user=params.value("user", type="QString")
         self.location=params.value("location", type="QString")
         self.password=params.value("password", type="QString")
@@ -308,11 +313,14 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         loc=[]
         loc=self.location.split('/')
         self.rd.oldRelease.setText(loc[-1])
-        self.rd.newRelease.setText(loc[-1])
-        self.rd.chooseDir.setText(self.location)
+        code,list=mageiaSyncExt.findRelease('rsync://'+self.user+'@bcd.mageia.org/isos/',self.password)
+        if code==0:
+            for item in list:
+                self.rd.newRelease.addItem(item)
+        self.rd.chooseDir.setText(self.destination)
         answer=self.rd.exec_()
         if answer:
-            returnMsg=mageiaSyncExt.rename(self.rd.chooseDir.text(),self.rd.oldRelease.text(),self.rd.newRelease.text())
+            returnMsg=mageiaSyncExt.rename(self.rd.chooseDir.text(),self.rd.oldRelease.text(),str(self.rd.newRelease.lineEdit()))
             self.lvMessage(returnMsg)
         self.rd.close()
 
