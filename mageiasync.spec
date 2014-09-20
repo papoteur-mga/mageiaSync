@@ -15,7 +15,7 @@ BuildRequires:	python-setuptools
 Requires:	python-qt5-core
 Requires:	python-qt5-gui
 Requires:	python-qt5-widgets
-Requires:	python-pkg-resources
+Requires:	rsync
 
 %description
 A frontend to rsync for Mageia usage.
@@ -31,7 +31,7 @@ A frontend to rsync for Mageia usage.
 #Requires:	python3-qt5-core
 #Requires:	python3-qt5-gui
 #Requires:	python3-qt5-widgets
-#Requires:	python3-pkg-resources
+#Requires:	rsync
 
 #%description -n python3-%{module}
 #A frontend to rsync for Mageia usage.
