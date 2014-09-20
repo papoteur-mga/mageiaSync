@@ -1,4 +1,5 @@
 %define module	mageiasync
+%define gitname	mageiaSync
 
 Name:		python-%{module}
 Version:	0.1
@@ -7,7 +8,7 @@ Summary:	A frontend to rsync for Mageia usage
 License:	GPLv3
 Group:		Development/Python
 URL:		https://github.com/papoteur-mga/mageiaSync
-Source0:	https://github.com/papoteur-mga/mageiaSync/archive/mageiaSync-%{version}.tar.gz
+Source0:	https://github.com/papoteur-mga/mageiaSync/archive/%{gitname}-%{version}.tar.gz
 BuildArch:	noarch
 BuildRequires:	python-setuptools
 
@@ -39,7 +40,7 @@ A frontend to rsync for Mageia usage.
 #---------------------------------------------------------------------------
 
 %prep
-%setup -q -n mageiaSync-%{version}
+%setup -q -n %{gitname}-%{version}
 
 #cp -a . %{py3dir}
 
@@ -59,17 +60,17 @@ A frontend to rsync for Mageia usage.
 %{__python} setup.py install --root=%{buildroot} --skip-build
 
 %files
-%doc README.rst LICENSE
+%doc CHANGELOG LICENSE README.md
 %{_bindir}/%{module}
 %{_datadir}/applications/%{module}.desktop
 %{_iconsdir}/hicolor/scalable/apps/%{module}.svg
-%{python_sitelib}/%{module}
+%{python_sitelib}/%{gitname}
 %{python_sitelib}/%{module}-%{version}-py%{pyver}.egg-info
 
 #%files -n python3-%{module}
-#%doc README.rst LICENSE
+#%doc CHANGELOG LICENSE README.md
 #%{_bindir}/python3-%{module}
 #%{_datadir}/applications/%{module}.desktop
 #%{_iconsdir}/hicolor/scalable/apps/%{module}.svg
-#%{python3_sitelib}/%{module}
+#%{python3_sitelib}/%{gitname}
 #%{python3_sitelib}/%{module}-%{version}-py%{py3ver}.egg-info
