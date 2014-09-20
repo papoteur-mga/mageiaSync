@@ -1,0 +1,12 @@
+#!/usr/bin/python
+#
+
+# Copyright (C) 2014 THE mageiaSync'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the mageiasync package.
+
+# Author mageiasync software= papoteur <papoteur@mageialinux-online.org>
+# Author script file= Geiger David <david.david@mageialinux-online.org> 
+
+import os
+
+os.system("python /usr/lib/python2.7/site-packages/mageiaSync/mageiasync.py")
