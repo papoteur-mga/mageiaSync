@@ -308,7 +308,7 @@ def findRelease(releasePath, password):        #   List the remote list of relea
         while True :
             item=process.stdout.readline().rstrip().decode('unicode_escape')
             words=item.split()
-            if words !=[]:
+            if words !=[] and words[-1] != ".":
                 releaseList.append(words[-1])
             process.poll()
             if process.returncode != None:
