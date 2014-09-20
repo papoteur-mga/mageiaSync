@@ -1,7 +1,7 @@
 #!/usr/bin/python3
- 
-from PyQt5.QtWidgets import (  QApplication, QProgressDialog, QMainWindow,
-        QDialog, QFileDialog,)
+
+from PyQt5.QtWidgets import (   QProgressDialog, QMainWindow,
+        QDialog, QFileDialog, QApplication)
 from PyQt5.QtGui import ( QStandardItemModel,QStandardItem,   )
 from PyQt5 import QtCore  # , Qt, QThread, QObject, pyqtSignal)
 import sys
@@ -12,7 +12,7 @@ import mageiaSyncDBrename
 
 
 class prefsDialog(QDialog,mageiaSyncDBprefs.Ui_prefsDialog ):
-   
+
     def __init__(self, parent=None):
         QDialog.__init__(self,parent)
         self.setupUi(self)
@@ -20,7 +20,7 @@ class prefsDialog(QDialog,mageiaSyncDBprefs.Ui_prefsDialog ):
 
 class renameDialog(QDialog,mageiaSyncDBrename.Ui_renameDialog ):
     #   Display a dialog box to choose to rename an old collection of ISOs to a new one
-   
+
     def __init__(self, parent=None):
         QDialog.__init__(self,parent)
         self.setupUi(self)
@@ -29,7 +29,7 @@ class renameDialog(QDialog,mageiaSyncDBrename.Ui_renameDialog ):
 
 class LogWindow(QProgressDialog):
     #   Display a box at start during the remote directory list loading
-   
+
     def __init__(self, parent=None):
         super(LogWindow, self).__init__(parent)
         self.setWindowModality(QtCore.Qt.WindowModal)
@@ -40,13 +40,13 @@ class LogWindow(QProgressDialog):
         self.setAutoReset(False)
         self.setAutoClose(False)
         self.setMinimumDuration(1)
- 
+
     def perform(self):
         self.progressDialog.setValue(self.progress)
- 
+
 class dbWarning(QProgressDialog):
     #   Display a box at start during the remote directory list loading
-   
+
     def __init__(self, parent=None):
         super(dbWarning, self).__init__(parent)
         self.setWindowModality(QtCore.Qt.WindowModal)
@@ -57,10 +57,10 @@ class dbWarning(QProgressDialog):
         self.setAutoReset(False)
         self.setAutoClose(False)
         self.setMinimumDuration(1)
- 
+
     def perform(self):
         self.progressDialog.setValue(self.progress)
- 
+
 class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     #   Display the main window
     def __init__(self, parent=None):
@@ -75,16 +75,16 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         self.stop.setEnabled(False)
         self.destination=''
         self.rsyncThread = mageiaSyncExt.syncThread(self)    # create a thread to launch rsync
-        self.rsyncThread.progressSignal.connect(self.setProgress) 
-        self.rsyncThread.speedSignal.connect(self.setSpeed) 
-        self.rsyncThread.sizeSignal.connect(self.setSize) 
-        self.rsyncThread.remainSignal.connect(self.setRemain) 
-        self.rsyncThread.endSignal.connect(self.syncEnd) 
+        self.rsyncThread.progressSignal.connect(self.setProgress)
+        self.rsyncThread.speedSignal.connect(self.setSpeed)
+        self.rsyncThread.sizeSignal.connect(self.setSize)
+        self.rsyncThread.remainSignal.connect(self.setRemain)
+        self.rsyncThread.endSignal.connect(self.syncEnd)
         self.rsyncThread.lvM.connect(self.lvMessage)
         self.rsyncThread.checkSignal.connect(self.checks)
         self.checkThreads=[]    #   A list of thread for each iso
 
- #      Model for list view in a table       
+ #      Model for list view in a table
         self.model = QStandardItemModel(0, 6, self)
         headers=["Directory","Name","Size","Date","SHA1","MD5"]
         i=0
@@ -103,7 +103,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     def multiSelect(self):
     #   allows to select multiple lines in remote ISOs list
         self.listIsos.setSelectionMode(2)
-        
+
     def add(self, iso):
     #   Add an remote ISO in list
          self.listIsos.addItem(iso)
@@ -115,7 +115,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         if isoSize==0:
             itemSize=QStandardItem('--')
         else:
-            formatedSize='{:n}'.format(isoSize) #.replace(","," ")
+            formatedSize='{:n}'.format(isoSize).replace(","," ")
             itemSize=QStandardItem(formatedSize)
         itemSize.setTextAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignHCenter)
         itemDate=QStandardItem("--/--/--")
@@ -126,7 +126,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         itemCheck5.setTextAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignHCenter)
         self.model.appendRow([itemPath,itemIso,itemSize,itemDate, itemCheck1, itemCheck5,])
         self.localListNames.append([path,iso])
-    
+
     def setProgress(self, value):
         #   Update the progress bar
         self.IprogressBar.setValue(value)
@@ -138,11 +138,11 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     def setSize(self, value):
         #   Update the size field
         self.Lsize.setText(str(value)+" bytes")
-    
+
     def setRemain(self,remainTime):
         content=QtCore.QTime.fromString(remainTime,"h:mm:ss")
         self.timeRemaining.setTime(content)
-        
+
     def checks(self,isoIndex):
         #   process a checking for each iso
         #   launches a thread for each iso
@@ -162,7 +162,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         col=(int)(isoIndex/100)
         row=isoIndex-col*100
         self.model.setData(self.model.index(row, col, QtCore.QModelIndex()), "Checking")
-        
+
     def md5Check(self,check):
         if check>=128:
             val="OK"
@@ -180,7 +180,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             val="Failed"
             row=check
         self.model.setData(self.model.index(row, 4, QtCore.QModelIndex()), val)
-    
+
     def dateCheck(self,check):
         if check>=128:
             val="OK"
@@ -193,8 +193,8 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     def sizeUpdate(self,signal,isoSize):
         col=(int)(signal/100)
         row=signal-col*100
-        self.model.setData(self.model.index(row, col, QtCore.QModelIndex()), '{:n}'.format(isoSize))
-        
+        self.model.setData(self.model.index(row, col, QtCore.QModelIndex()), '{:n}'.format(isoSize).replace(","," "))
+
     def syncEnd(self, rc):
         if rc==1:
             self.lvMessage("Command rsync not found")
@@ -251,11 +251,11 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
     def selectDestination(self):
         #   dialog box to select the destination (local directory)
-        directory = QFileDialog.getExistingDirectory(self, 'Select a directory','~/') 
-        isosSync.destination = directory   
+        directory = QFileDialog.getExistingDirectory(self, 'Select a directory','~/')
+        isosSync.destination = directory
         self.pd.selectDest.setText(isosSync.destination)
 
-        
+
     def selectAllIsos(self):
         #   Select or unselect the ISOs in remote list
         if self.selectAllState :
@@ -275,7 +275,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         self.actionPreferences.triggered.connect(self.prefs)
         self.syncGo.clicked.connect(self.launchSync)
         self.selectAll.clicked.connect(self.selectAllIsos)
- 
+
     def updateList(self):
         # From the menu entry
         self.lw = LogWindow()
@@ -284,21 +284,22 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         self.model.removeRows(0,self.model.rowCount())
         if self.location  == "" :
             self.nameWithPath='rsync://'+self.user+'@bcd.mageia.org/isos/'+self.release+'/'
-            print self.nameWithPath
+#            print self.nameWithPath
         else:
             self.nameWithPath=self.location+'/'
+        self.lvMessage("Source: "+self.nameWithPath)
         self.fillList = mageiaSyncExt.findIsos()
         self.fillList.setup(self.nameWithPath, self.password,self.destination)
         self.fillList.endSignal.connect(self.closeFill)
         self.fillList.start()
-        
+
     def lvMessage( self,message):
-        #   Add a line in the logview 
+        #   Add a line in the logview
         self.lvText.append(message)
-    
+
     def renameDir(self):
         #   Choose the directory where isos are stored
-        directory = QFileDialog.getExistingDirectory(self, 'Select a directory',self.destination) 
+        directory = QFileDialog.getExistingDirectory(self, 'Select a directory',self.destination)
         self.rd.chooseDir.setText(directory)
 
     def rename(self):
@@ -314,7 +315,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             returnMsg=mageiaSyncExt.rename(self.rd.chooseDir.text(),self.rd.oldRelease.text(),self.rd.newRelease.text())
             self.lvMessage(returnMsg)
         self.rd.close()
-    
+
     def prefs(self):
         # From the menu entry
         self.pd=prefsDialog()
@@ -335,8 +336,8 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             params.setValue("bwl",str(self.pd.bwl.value()))
         self.prefsInit()
         self.pd.close()
-        
-    
+
+
     def launchSync(self):
         self.IprogressBar.setEnabled(True)
         self.stop.setEnabled(True)
@@ -388,7 +389,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             self.localAdd(path,iso, isoSize)
         self.fillList.quit()
         self.lw.hide()
-        
+
     def stopSync(self):
         self.rsyncThread.stop()
         self.IprogressBar.setEnabled(False)
@@ -405,14 +406,14 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         # look for Isos list and add it to the isoSync list. Update preferences
         self.updateList()
         self.multiSelect()
-    
+
     def close(self):
         self.rsyncThread.stop()
         exit(0)
-        
-     
+
 if __name__=='__main__':
     app = QApplication(sys.argv)
     isosSync = IsosViewer()
     isosSync.main()
     sys.exit(app.exec_())
+

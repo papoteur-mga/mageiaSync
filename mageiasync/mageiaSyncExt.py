@@ -29,7 +29,7 @@ class checkThread(QThread):
         try:
             with open(self.destination+'/'+self.path+'/'+self.name, 'rb') as f:
                 while True:
-                    block = f.read(2**10) 
+                    block = f.read(2**10)
                     if not block: break
                     hashfunc.update(block)
                 sumcalc=hashfunc.hexdigest()
@@ -44,7 +44,7 @@ class checkThread(QThread):
         if sumcalc==sumcheck:
             return True
         return False
-        
+
     def processDate(self):
         import  datetime as datetime
         import time
@@ -68,13 +68,13 @@ class checkThread(QThread):
             return True
         else:
             return False
-        
+
     def setup(self, destination, path,name,isoIndex):
         self.destination=destination
         self.path=path
         self.name=name
         self.isoIndex=isoIndex
-        
+
     def run(self):
         signal=200+self.isoIndex
         isoSize=QFileInfo(str(self.destination)+'/'+self.path+'/' +self.name).size()
@@ -92,7 +92,7 @@ class checkThread(QThread):
         checkDate=self.processDate()
         self.dateSignal.emit(self.isoIndex+128*checkDate)
         self.quit()
-        
+
 
 class syncThread(QThread):
     progressSignal = pyqtSignal(int)
@@ -116,7 +116,7 @@ class syncThread(QThread):
     def params(self, password, bwl):
         self.password=password
         self.bwl=bwl    #   Bandwith limit
-        
+
     def stop(self):
         self.stopped=True
         try:
@@ -126,7 +126,7 @@ class syncThread(QThread):
             self.lvM.emit("Process rsync already stopped")
         # Init progressbar and speed counter
         self.endSignal.emit(0)
-        
+
     def run(self):
         if len(self.list)==0:
             self.lvM.emit("No entry selected")
@@ -157,7 +157,7 @@ class syncThread(QThread):
             if not errorOccured:
                 buf=''
                 while not self.stopped:
-                    letter=self.process.stdout.read(1)
+                    letter=self.process.stdout.read(1).decode('unicode_escape')
                     buf=buf+letter
                     if letter=='\n' or letter=='\r':
                         progressL=re.findall("([0-9]*)%", buf)
@@ -226,13 +226,14 @@ class findIsos(QThread):
         self.path=path
         self.password=password
         self.destination=destination
+        self.lvM.emit(path+password+destination)
 
     def getList(self):
         return self.list
 
     def getLocal(self):
         return self.localList
-        
+
     def run(self):
         #   Lists ISO files in local directory
         root=QDir(self.destination)
@@ -259,7 +260,7 @@ class findIsos(QThread):
         except OSError as e:
             self.lvM.emit("Command rsync not found: "+str(e))
             self.endSignal.emit(1)
-            return 
+            return
         except ValueError as e:
             self.lvM.emit("Error in rsync parameters: "+str(e))
             self.endSignal.emit(2)
@@ -271,8 +272,9 @@ class findIsos(QThread):
             return
         process.poll()
         while True :
-            item=process.stdout.readline().rstrip()
-            if item.lower().endswith('.iso') :
+            item=process.stdout.readline().rstrip().decode('unicode_escape')
+            self.lvM.emit(item)
+            if str(item.lower()).endswith('.iso') :
                 words=item.split()
                 self.list.append(words[-1])
             process.poll()
@@ -280,4 +282,3 @@ class findIsos(QThread):
                 break
         self.endSignal.emit(0)
 
-#syncIso('rsync://ftp5.gwdg.de/pub/linux/mageia/iso/4.1/Mageia-4.1-LiveCD-GNOME-en-i586-CD/', "/documents/Mageia-4/Mageia-4.1-LiveCD-GNOME-en-i586-CD/", "y8d5qr38728128I")
