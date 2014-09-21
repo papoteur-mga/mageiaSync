@@ -49,7 +49,7 @@ A frontend to rsync for Mageia usage.
 #%{__python3} setup.py build
 #popd
 
-%{__python3} setup.py build
+%{__python} setup.py build
 
 %install
 #pushd %{py3dir}
