@@ -273,7 +273,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             else:
                 pass
 #                answer=QDialogButtonBox(QDialogButtonBox.Ok)
-                print "the user must set values or default values"
+                print( "the user must set values or default values")
             self.pd.close()
         else:
             self.release=params.value("release", type="QString")
@@ -369,7 +369,6 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             params.setValue("password",self.pd.password.text())
             params.setValue("location",self.pd.location.text())
             params.setValue("destination",self.pd.selectDest.text())
-            print str(self.pd.bwl.value())
             params.setValue("bwl",str(self.pd.bwl.value()))
         self.prefsInit()
         self.pd.close()

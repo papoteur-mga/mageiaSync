@@ -286,7 +286,6 @@ def findRelease(releasePath, password):        #   List the remote list of relea
         releaseList =[]
         code=0
         commande = ['rsync', '--list-only',str(releasePath)]
-        print commande
         try:
             if password != "":
                 envir = os.environ.copy()
