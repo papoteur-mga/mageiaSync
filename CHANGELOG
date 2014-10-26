@@ -1,6 +1,6 @@
 The modifications are:
 
-mageiasync 0.1.0
+mageiasync 0.1.1
 ------------
 	  - bugfix: change the rename dialog box which was not synced
 
