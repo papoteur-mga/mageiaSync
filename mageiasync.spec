@@ -2,7 +2,7 @@
 %define gitname	mageiaSync
 
 Name:		python-%{module}
-Version:	0.1
+Version:	0.1.1
 Release:	%mkrel 1
 Summary:	A frontend to rsync for Mageia usage
 License:	GPLv3
