@@ -142,9 +142,9 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         #   Update the speed field
         self.speedLCD.display(value)
 
-    def setSize(self, value):
+    def setSize(self, size):
         #   Update the size field
-        self.Lsize.setText(str(value)+" bytes")
+        self.Lsize.setText('{:n}'.format(size).replace(","," ")+" bytes")
 
     def setRemain(self,remainTime):
         content=QtCore.QTime.fromString(remainTime,"h:mm:ss")

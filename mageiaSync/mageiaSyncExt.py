@@ -193,6 +193,7 @@ class syncThread(QThread):
         self.speedSignal.emit(0)
         self.progressSignal.emit(0)
         self.sizeSignal.emit(0)
+        self.remainSignal.emit("")
         self.stopped=False
         self.list=[]
         self.quit()
