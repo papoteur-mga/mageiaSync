@@ -155,7 +155,10 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         #   launches a thread for each iso
         newThread=mageiaSyncExt.checkThread(self)
         self.checkThreads.append(newThread)
-        self.checkThreads[-1].setup(self.destination,self.model.data(self.model.index(isoIndex,0)) ,self.model.data(self.model.index(isoIndex,1)),isoIndex)
+        self.checkThreads[-1].setup(self.destination,
+            self.model.data(self.model.index(isoIndex,0)) ,
+            self.model.data(self.model.index(isoIndex,1)),
+            isoIndex)
         self.checkThreads[-1].md5Signal.connect(self.md5Check)
         self.checkThreads[-1].sha1Signal.connect(self.sha1Check)
         self.checkThreads[-1].dateSignal.connect(self.dateCheck)

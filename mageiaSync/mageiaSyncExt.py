@@ -122,6 +122,7 @@ class syncThread(QThread):
         try:
             self.process.terminate()
             self.lvM.emit("Process rsync stopped")
+            self.list=[]
         except:
             self.lvM.emit("Process rsync already stopped")
         # Init progressbar and speed counter
@@ -186,9 +187,10 @@ class syncThread(QThread):
                     if self.process.returncode != None:
                         break
                 self.lvM.emit("Ending with "+iso['nameWithPath'])
-                self.checkSignal.emit(iso['row'])
                 if self.stopped:
                     break
+                else:
+                    self.checkSignal.emit(iso['row'])
         self.endSignal.emit(0)
         self.speedSignal.emit(0)
         self.progressSignal.emit(0)
