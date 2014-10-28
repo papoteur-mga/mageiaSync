@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mageiaSyncUI.ui'
 #
-# Created: Sat Aug 30 20:19:01 2014
+# Created: Sat Nov 22 10:27:11 2014
 #      by: PyQt5 UI code generator 5.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(862, 587)
+        mainWindow.resize(820, 587)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("share/icons/mageiasync.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        mainWindow.setWindowIcon(icon)
+        mainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -85,6 +89,10 @@ class Ui_mainWindow(object):
         self.stop.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.stop.setObjectName("stop")
         self.horizontalLayout.addWidget(self.stop)
+        self.quit = QtWidgets.QPushButton(self.centralwidget)
+        self.quit.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
+        self.quit.setObjectName("quit")
+        self.horizontalLayout.addWidget(self.quit)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setObjectName("label")
@@ -95,12 +103,13 @@ class Ui_mainWindow(object):
         self.verticalLayout.addWidget(self.lvText)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 862, 19))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 820, 19))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.menuFile.setObjectName("menuFile")
         self.menuSync = QtWidgets.QMenu(self.menubar)
+        self.menuSync.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.menuSync.setObjectName("menuSync")
         mainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(mainWindow)
@@ -114,10 +123,13 @@ class Ui_mainWindow(object):
         self.actionPreferences.setObjectName("actionPreferences")
         self.actionRename = QtWidgets.QAction(mainWindow)
         self.actionRename.setObjectName("actionRename")
+        self.actionCheck = QtWidgets.QAction(mainWindow)
+        self.actionCheck.setObjectName("actionCheck")
         self.menuFile.addAction(self.actionUpdate)
         self.menuFile.addAction(self.actionPreferences)
         self.menuFile.addAction(self.actionQuit)
         self.menuSync.addAction(self.actionRename)
+        self.menuSync.addAction(self.actionCheck)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuSync.menuAction())
 
@@ -130,19 +142,22 @@ class Ui_mainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "MageiaSync"))
         self.remoteDirLabel.setText(_translate("mainWindow", "Remote directory"))
-        self.selectAll.setText(_translate("mainWindow", "Select All"))
+        self.selectAll.setText(_translate("mainWindow", "Select &All"))
         self.localDirLabel.setText(_translate("mainWindow", "Local directory:"))
         self.Lsize.setText(_translate("mainWindow", "0 bytes"))
         self.label_2.setText(_translate("mainWindow", "kB/s"))
         self.label_3.setText(_translate("mainWindow", "Remaining:"))
         self.timeRemaining.setDisplayFormat(_translate("mainWindow", "H:mm:ss"))
-        self.syncGo.setText(_translate("mainWindow", "Do sync"))
-        self.stop.setText(_translate("mainWindow", "Stop"))
+        self.syncGo.setText(_translate("mainWindow", "&Do sync"))
+        self.stop.setText(_translate("mainWindow", "&Stop"))
+        self.quit.setText(_translate("mainWindow", "&Quit"))
         self.label.setText(_translate("mainWindow", "Report"))
-        self.menuFile.setTitle(_translate("mainWindow", "File"))
-        self.menuSync.setTitle(_translate("mainWindow", "Sync"))
-        self.actionUpdate.setText(_translate("mainWindow", "Update list"))
-        self.actionQuit.setText(_translate("mainWindow", "Quit"))
-        self.actionPreferences.setText(_translate("mainWindow", "Preferences"))
-        self.actionRename.setText(_translate("mainWindow", "Rename archives"))
+        self.menuFile.setTitle(_translate("mainWindow", "&File"))
+        self.menuSync.setTitle(_translate("mainWindow", "S&ync"))
+        self.actionUpdate.setText(_translate("mainWindow", "&Update list"))
+        self.actionQuit.setText(_translate("mainWindow", "&Quit"))
+        self.actionPreferences.setText(_translate("mainWindow", "&Preferences"))
+        self.actionRename.setText(_translate("mainWindow", "&Rename archives"))
+        self.actionCheck.setText(_translate("mainWindow", "&Check"))
+        self.actionCheck.setToolTip(_translate("mainWindow", "Check selected images"))
 

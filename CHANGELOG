@@ -1,5 +1,13 @@
 The modifications are:
 
+	  - added shortcuts.
+	  - added new feature : launching checks on demand
+	  - corrected size display
+	  - Correction of check being launched after stopping
+	  - Correction : Reset the remaining field when stopped
+	  - Added "Quit" button
+	  - Correction of the icon
+
 mageiasync 0.1.1
 ------------
 	  - bugfix: change the rename dialog box which was not synced.

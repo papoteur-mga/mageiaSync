@@ -150,12 +150,30 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         content=QtCore.QTime.fromString(remainTime,"h:mm:ss")
         self.timeRemaining.setTime(content)
 
+    def manualChecks(self):
+        for iso in self.listIsos.selectedItems():
+            path,name=iso.text().split('/')
+            try:
+                #   Look for ISO in local list
+                item=self.model.findItems(name,QtCore.Qt.MatchExactly,1)[0]
+            except:
+                #   Remote ISO is not yet in local directory. We add it in localList and create the directory
+                self.localAdd(path,name,0)
+                basedir=QtCore.QDir(self.destination)
+                basedir.mkdir(path)
+                item=self.model.findItems(name,QtCore.Qt.MatchExactly,1)[0]
+            row=self.model.indexFromItem(item).row()
+            self.checks(row)
+
     def checks(self,isoIndex):
-        #   process a checking for each iso
+        #   processes a checking for each iso
         #   launches a thread for each iso
         newThread=mageiaSyncExt.checkThread(self)
         self.checkThreads.append(newThread)
-        self.checkThreads[-1].setup(self.destination,self.model.data(self.model.index(isoIndex,0)) ,self.model.data(self.model.index(isoIndex,1)),isoIndex)
+        self.checkThreads[-1].setup(self.destination,
+            self.model.data(self.model.index(isoIndex,0)) ,
+            self.model.data(self.model.index(isoIndex,1)),
+            isoIndex)
         self.checkThreads[-1].md5Signal.connect(self.md5Check)
         self.checkThreads[-1].sha1Signal.connect(self.sha1Check)
         self.checkThreads[-1].dateSignal.connect(self.dateCheck)
@@ -298,17 +316,19 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         if self.selectAllState :
             for i in range(self.listIsos.count()):
                 self.listIsos.item(i).setSelected(True)
-            self.selectAll.setText("Unselect all")
+            self.selectAll.setText("Unselect &All")
         else:
             for i in range(self.listIsos.count()):
                 self.listIsos.item(i).setSelected(False)
-            self.selectAll.setText("Select all")
+            self.selectAll.setText("Select &All")
         self.selectAllState=not self.selectAllState
 
     def connectActions(self):
         self.actionQuit.triggered.connect(app.quit)
+        self.quit.clicked.connect(app.quit)
         self.actionRename.triggered.connect(self.rename)
         self.actionUpdate.triggered.connect(self.updateList)
+        self.actionCheck.triggered.connect(self.manualChecks)
         self.actionPreferences.triggered.connect(self.prefs)
         self.syncGo.clicked.connect(self.launchSync)
         self.selectAll.clicked.connect(self.selectAllIsos)
@@ -329,6 +349,9 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         self.fillList.setup(self.nameWithPath, self.password,self.destination)
         self.fillList.endSignal.connect(self.closeFill)
         self.fillList.start()
+        # Reset the button
+        self.selectAll.setText("Select &All")
+        self.selectAllState=True
 
     def lvMessage( self,message):
         #   Add a line in the logview

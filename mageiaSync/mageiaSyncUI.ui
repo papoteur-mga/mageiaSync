@@ -6,12 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>862</width>
+    <width>820</width>
     <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MageiaSync</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/mageiasync.png</normaloff>icons/mageiasync.png</iconset>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -31,7 +38,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="text">
-       <string>Select All</string>
+       <string>Select &amp;All</string>
       </property>
      </widget>
     </item>
@@ -157,7 +164,7 @@
          <locale language="English" country="UnitedStates"/>
         </property>
         <property name="text">
-         <string>Do sync</string>
+         <string>&amp;Do sync</string>
         </property>
        </widget>
       </item>
@@ -167,7 +174,17 @@
          <locale language="English" country="UnitedStates"/>
         </property>
         <property name="text">
-         <string>Stop</string>
+         <string>&amp;Stop</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="quit">
+        <property name="locale">
+         <locale language="English" country="UnitedStates"/>
+        </property>
+        <property name="text">
+         <string>&amp;Quit</string>
         </property>
        </widget>
       </item>
@@ -194,7 +211,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>862</width>
+     <width>820</width>
      <height>19</height>
     </rect>
    </property>
@@ -203,17 +220,21 @@
      <locale language="English" country="UnitedStates"/>
     </property>
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="actionUpdate"/>
     <addaction name="actionPreferences"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuSync">
+    <property name="locale">
+     <locale language="English" country="UnitedStates"/>
+    </property>
     <property name="title">
-     <string>Sync</string>
+     <string>S&amp;ync</string>
     </property>
     <addaction name="actionRename"/>
+    <addaction name="actionCheck"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSync"/>
@@ -221,22 +242,30 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionUpdate">
    <property name="text">
-    <string>Update list</string>
+    <string>&amp;Update list</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
   </action>
   <action name="actionPreferences">
    <property name="text">
-    <string>Preferences</string>
+    <string>&amp;Preferences</string>
    </property>
   </action>
   <action name="actionRename">
    <property name="text">
-    <string>Rename archives</string>
+    <string>&amp;Rename archives</string>
+   </property>
+  </action>
+  <action name="actionCheck">
+   <property name="text">
+    <string>&amp;Check</string>
+   </property>
+   <property name="toolTip">
+    <string>Check selected images</string>
    </property>
   </action>
  </widget>
