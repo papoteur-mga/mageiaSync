@@ -144,7 +144,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
     def setSize(self, size):
         #   Update the size field
-        self.Lsize.setText('{:n}'.format(size).replace(","," ")+" bytes")
+        self.Lsize.setText(size+" bytes")
 
     def setRemain(self,remainTime):
         content=QtCore.QTime.fromString(remainTime,"h:mm:ss")
@@ -159,7 +159,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         self.checkThreads[-1].md5Signal.connect(self.md5Check)
         self.checkThreads[-1].sha1Signal.connect(self.sha1Check)
         self.checkThreads[-1].dateSignal.connect(self.dateCheck)
-        self.checkThreads[-1].sizeSignal.connect(self.sizeUpdate)
+        self.checkThreads[-1].sizeFinalSignal.connect(self.sizeUpdate)
         self.checkThreads[-1].checkStartSignal.connect(self.checkStart)
         self.checkThreads[-1].start()
 
@@ -200,7 +200,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
     def sizeUpdate(self,signal,isoSize):
         col=(int)(signal/100)
         row=signal-col*100
-        self.model.setData(self.model.index(row, col, QtCore.QModelIndex()), '{:n}'.format(isoSize).replace(","," "))
+        self.model.setData(self.model.index(row, col, QtCore.QModelIndex()), isoSize)
 
     def syncEnd(self, rc):
         if rc==1:

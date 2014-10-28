@@ -14,7 +14,7 @@ class checkThread(QThread):
     md5Signal = pyqtSignal(int)
     sha1Signal= pyqtSignal(int)
     dateSignal=pyqtSignal(int)
-    sizeSignal=pyqtSignal(int,int)
+    sizeFinalSignal=pyqtSignal(int,str)
     checkStartSignal=pyqtSignal(int)
 
     def __init__(self, parent=None):
@@ -78,7 +78,7 @@ class checkThread(QThread):
     def run(self):
         signal=200+self.isoIndex
         isoSize=QFileInfo(str(self.destination)+'/'+self.path+'/' +self.name).size()
-        self.sizeSignal.emit(signal, isoSize)
+        self.sizeFinalSignal.emit(signal, '{:,}'.format(isoSize).replace(',',' '))
         signal=500+self.isoIndex
         self.checkStartSignal.emit(signal)
         checkMd5=self.processSum('md5')
@@ -100,7 +100,7 @@ class syncThread(QThread):
     endSignal=pyqtSignal(int)
     remainSignal=pyqtSignal(str)
     checkSignal=pyqtSignal(int)
-    sizeSignal=pyqtSignal(int)
+    sizeSignal=pyqtSignal(str)
     lvM=pyqtSignal(str)
 
     def __init__(self, parent=None):
@@ -169,7 +169,7 @@ class syncThread(QThread):
                             progress= eval(progressL[0])
                             self.progressSignal.emit(progress)
                             if len(sizeB) != 0:
-                               self.sizeSignal.emit(eval(sizeB[0].replace(",","")))
+                               self.sizeSignal.emit(sizeB[0].replace(","," "))
                         else:
                             if (len(buf) !=0):
                                 self.lvM.emit(buf.rstrip())
@@ -192,8 +192,8 @@ class syncThread(QThread):
         self.endSignal.emit(0)
         self.speedSignal.emit(0)
         self.progressSignal.emit(0)
-        self.sizeSignal.emit(0)
-        self.remainSignal.emit("")
+        self.sizeSignal.emit(u'0')
+        self.remainSignal.emit(u'0')
         self.stopped=False
         self.list=[]
         self.quit()
