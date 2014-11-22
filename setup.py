@@ -16,7 +16,7 @@ data_files = [("share/applications/", ["share/applications/mageiasync.desktop"])
 
 setup(
         name = 'mageiasync',
-        version = '0.1.1',
+        version = '0.1.2',
         packages = ['mageiaSync'],
         scripts = ['mageiasync'],
         license = 'GNU General Public License v3 (GPLv3)',

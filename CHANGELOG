@@ -1,12 +1,14 @@
 The modifications are:
 
+mageiasync 0.1.2
+------------
 	  - added shortcuts.
-	  - added new feature : launching checks on demand
-	  - corrected size display
-	  - Correction of check being launched after stopping
-	  - Correction : Reset the remaining field when stopped
-	  - Added "Quit" button
-	  - Correction of the icon
+	  - added new feature : launching checks on demand.
+	  - corrected size display.
+	  - correction of check being launched after stopping.
+	  - correction : Reset the remaining field when stopped.
+	  - added "Quit" button.
+	  - correction of the icon.
 
 mageiasync 0.1.1
 ------------

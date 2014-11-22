@@ -10,7 +10,7 @@ fi
 
 cd "$(readlink -f "$(dirname "$0")/..")"
 
-VERSION=(0.1.1)
+VERSION=(0.1.2)
 DOMAIN=(mageiasync)
 
 intltool-extract --type=gettext/ini share/applications/mageiasync.desktop.in
