@@ -133,7 +133,7 @@ class syncThread(QThread):
             self.lvM.emit(self.tr("No entry selected"))
         for iso in self.list:
             errorOccured=True
-            self.lvM.emit("Starting rsync with "+iso['nameWithPath'])
+            self.lvM.emit(self.tr("Starting rsync with ")+iso['nameWithPath'])
             if self.bwl!=0:
                 commande=['rsync','-avHP',"--bwlimit="+str(self.bwl), iso['nameWithPath'], iso['destination']]
             else:
@@ -148,13 +148,13 @@ class syncThread(QThread):
                 errorOccured=False
             except OSError as e:
                 self.endSignal.emit(1)
-#                self.lvM.emit("Command rsync not found: "+str(e))
+#                Command rsync not found
             except ValueError as e:
                 self.endSignal.emit(2)
-#                self.lvM.emit("Error in rsync parameters: "+str(e))
+#                Error in rsync parameters
             except Exception as e  :
                 self.endSignal.emit(3)
-                self.lvM.emit("Error in rsync: "+str(e))
+#                Unknown error in rsync
             if not errorOccured:
                 buf=''
                 while not self.stopped:

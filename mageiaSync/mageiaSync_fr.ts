@@ -518,5 +518,10 @@
         <source>Ending with </source>
         <translation>Fin de </translation>
     </message>
+    <message>
+        <location filename="mageiaSyncExt.py" line="136"/>
+        <source>Starting rsync with </source>
+        <translation>Lancement de rsync avec </translation>
+    </message>
 </context>
 </TS>

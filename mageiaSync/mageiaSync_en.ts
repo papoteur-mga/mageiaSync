@@ -437,5 +437,10 @@
         <source>Ending with </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="mageiaSyncExt.py" line="136"/>
+        <source>Starting rsync with </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
