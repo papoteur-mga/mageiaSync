@@ -1,8 +1,9 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 from PyQt5.QtWidgets import (   QProgressDialog, QMainWindow,
         QDialog, QFileDialog, QApplication)
 from PyQt5.QtGui import ( QStandardItemModel,QStandardItem,   )
+from PyQt5.QtCore import ( QLibraryInfo,   )
 from PyQt5 import QtCore  # , Qt, QThread, QObject, pyqtSignal)
 import sys
 import mageiaSyncUI
@@ -41,7 +42,7 @@ class LogWindow(QProgressDialog):
         super(LogWindow, self).__init__(parent)
         self.setWindowModality(QtCore.Qt.WindowModal)
         self.setWindowTitle('Loading...')
-        self.setLabelText('Loading images list from repository.')
+        self.setLabelText(self.tr('Loading images list from repository.'))
         self.setMinimum(0)
         self.setMaximum(0)
         self.setAutoReset(False)
@@ -57,8 +58,8 @@ class dbWarning(QProgressDialog):
     def __init__(self, parent=None):
         super(dbWarning, self).__init__(parent)
         self.setWindowModality(QtCore.Qt.WindowModal)
-        self.setWindowTitle('Loading...')
-        self.setLabelText('Loading images list from repository.')
+        self.setWindowTitle(self.tr('Loading...'))
+        self.setLabelText(self.tr('Loading images list from repository.'))
         self.setMinimum(0)
         self.setMaximum(0)
         self.setAutoReset(False)
@@ -93,7 +94,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
  #      Model for list view in a table
         self.model = QStandardItemModel(0, 6, self)
-        headers=["Directory","Name","Size","Date","SHA1","MD5"]
+        headers=[self.tr("Directory"),self.tr("Name"),self.tr("Size"),self.tr("Date"),"SHA1","MD5"]
         i=0
         for label in headers:
             self.model.setHeaderData(i, QtCore.Qt.Horizontal,label )
@@ -144,7 +145,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
     def setSize(self, size):
         #   Update the size field
-        self.Lsize.setText(size+" bytes")
+        self.Lsize.setText(size+self.tr(" bytes"))
 
     def setRemain(self,remainTime):
         content=QtCore.QTime.fromString(remainTime,"h:mm:ss")
@@ -186,32 +187,32 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         #   the hundred contains index of the value to check, the minor value contains the row
         col=(int)(isoIndex/100)
         row=isoIndex-col*100
-        self.model.setData(self.model.index(row, col, QtCore.QModelIndex()), "Checking")
+        self.model.setData(self.model.index(row, col, QtCore.QModelIndex()), self.tr("Checking"))
 
     def md5Check(self,check):
         if check>=128:
-            val="OK"
+            val=self.tr("OK")
             row=check-128
         else:
-            val="Failed"
+            val=self.tr("Failed")
             row=check
         self.model.setData(self.model.index(row, 5, QtCore.QModelIndex()), val)
 
     def sha1Check(self,check):
         if check>=128:
-            val="OK"
+            val=self.tr("OK")
             row=check-128
         else:
-            val="Failed"
+            val=self.tr("Failed")
             row=check
         self.model.setData(self.model.index(row, 4, QtCore.QModelIndex()), val)
 
     def dateCheck(self,check):
         if check>=128:
-            val="OK"
+            val=self.tr("OK")
             row=check-128
         else:
-            val="Failed"
+            val=self.tr("Failed")
             row=check
         self.model.setData(self.model.index(row, 3, QtCore.QModelIndex()), val)
 
@@ -222,11 +223,11 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
     def syncEnd(self, rc):
         if rc==1:
-            self.lvMessage("Command rsync not found")
+            self.lvMessage(self.tr("Command rsync not found"))
         elif rc==2:
-            self.lvMessage("Error in rsync parameters")
+            self.lvMessage(self.tr("Error in rsync parameters"))
         elif rc==3:
-            self.lvMessage("Unknown error in rsync")
+            self.lvMessage(self.tr("Unknown error in rsync"))
         self.IprogressBar.setEnabled(False)
         self.syncGo.setEnabled(True)
         self.listIsos.setEnabled(True)
@@ -291,7 +292,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             else:
                 pass
 #                answer=QDialogButtonBox(QDialogButtonBox.Ok)
-                print("the user must set values or default values")
+                print(self.tr("the user must set values or default values"))
             self.pd.close()
         else:
             self.release=params.value("release", type="QString")
@@ -300,13 +301,13 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             self.password=params.value("password", type="QString")
             self.destination=params.value("destination", type="QString")
             self.bwl=params.value("bwl",type=int)
-        self.localDirLabel.setText("Local directory: "+self.destination)
+        self.localDirLabel.setText(self.tr("Local directory: ")+self.destination)
         if self.location !="":
-            self.remoteDirLabel.setText("Remote directory: "+self.location)
+            self.remoteDirLabel.setText(self.tr("Remote directory: ")+self.location)
 
     def selectDestination(self):
         #   dialog box to select the destination (local directory)
-        directory = QFileDialog.getExistingDirectory(self, 'Select a directory','~/')
+        directory = QFileDialog.getExistingDirectory(self, self.tr('Select a directory'),'~/')
         isosSync.destination = directory
         self.pd.selectDest.setText(isosSync.destination)
 
@@ -316,11 +317,11 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
         if self.selectAllState :
             for i in range(self.listIsos.count()):
                 self.listIsos.item(i).setSelected(True)
-            self.selectAll.setText("Unselect &All")
+            self.selectAll.setText(self.tr("Unselect &All"))
         else:
             for i in range(self.listIsos.count()):
                 self.listIsos.item(i).setSelected(False)
-            self.selectAll.setText("Select &All")
+            self.selectAll.setText(self.tr("Select &All"))
         self.selectAllState=not self.selectAllState
 
     def connectActions(self):
@@ -344,13 +345,13 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 #            print self.nameWithPath
         else:
             self.nameWithPath=self.location+'/'
-        self.lvMessage("Source: "+self.nameWithPath)
+        self.lvMessage(self.tr("Source: ")+self.nameWithPath)
         self.fillList = mageiaSyncExt.findIsos()
         self.fillList.setup(self.nameWithPath, self.password,self.destination)
         self.fillList.endSignal.connect(self.closeFill)
         self.fillList.start()
         # Reset the button
-        self.selectAll.setText("Select &All")
+        self.selectAll.setText(self.tr("Select &All"))
         self.selectAllState=True
 
     def lvMessage( self,message):
@@ -359,7 +360,7 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
     def renameDir(self):
         #   Choose the directory where isos are stored
-        directory = QFileDialog.getExistingDirectory(self, 'Select a directory',self.destination)
+        directory = QFileDialog.getExistingDirectory(self, self.tr('Select a directory'),self.destination)
         self.rd.chooseDir.setText(directory)
 
     def rename(self):
@@ -436,11 +437,11 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
             for iso in list:
                 self.add(iso)
         elif code==1:
-            self.lvMessage("Command rsync not found")
+            self.lvMessage(self.tr("Command rsync not found"))
         elif code==2:
-            self.lvMessage("Error in rsync parameters")
+            self.lvMessage(self.tr("Error in rsync parameters"))
         elif code==3:
-            self.lvMessage("Unknown error in rsync")
+            self.lvMessage(self.tr("Unknown error in rsync"))
         list=self.fillList.getList()
 
         list=self.fillList.getLocal()
@@ -472,6 +473,13 @@ class IsosViewer(QMainWindow, mageiaSyncUI.Ui_mainWindow):
 
 if __name__=='__main__':
     app = QApplication(sys.argv)
+    locale = QtCore.QLocale.system().name()
+    qtTranslator = QtCore.QTranslator()
+    if qtTranslator.load("qt_" + locale,QLibraryInfo.location(QLibraryInfo.TranslationsPath)):
+        app.installTranslator(qtTranslator)
+    appTranslator = QtCore.QTranslator()
+    if appTranslator.load("mageiaSync_" + locale,QLibraryInfo.location(QLibraryInfo.TranslationsPath)):
+        app.installTranslator(appTranslator)
     isosSync = IsosViewer()
     isosSync.main()
     sys.exit(app.exec_())

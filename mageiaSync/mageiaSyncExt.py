@@ -121,16 +121,16 @@ class syncThread(QThread):
         self.stopped=True
         try:
             self.process.terminate()
-            self.lvM.emit("Process rsync stopped")
+            self.lvM.emit(self.tr("Process rsync stopped"))
             self.list=[]
         except:
-            self.lvM.emit("Process rsync already stopped")
+            self.lvM.emit(self.tr("Process rsync already stopped"))
         # Init progressbar and speed counter
         self.endSignal.emit(0)
 
     def run(self):
         if len(self.list)==0:
-            self.lvM.emit("No entry selected")
+            self.lvM.emit(self.tr("No entry selected"))
         for iso in self.list:
             errorOccured=True
             self.lvM.emit("Starting rsync with "+iso['nameWithPath'])
@@ -186,7 +186,7 @@ class syncThread(QThread):
                     self.process.poll()
                     if self.process.returncode != None:
                         break
-                self.lvM.emit("Ending with "+iso['nameWithPath'])
+                self.lvM.emit(self.tr("Ending with ")+iso['nameWithPath'])
                 if self.stopped:
                     break
                 else:
@@ -214,7 +214,7 @@ def rename(directory,oldRelease,newRelease):
                     item=process.stderr.readline().rstrip()
                     return 'Error ', item
                 break
-    return "Success in renaming"
+    return tr("Success in renaming")
 
 class findIsos(QThread):
     endSignal=pyqtSignal(int)
@@ -261,16 +261,16 @@ class findIsos(QThread):
             else:
                 process = Popen(commande, shell=False, stdout=PIPE, stderr=PIPE)
         except OSError as e:
-            self.lvM.emit("Command rsync not found: "+str(e))
+            self.lvM.emit(self.tr("Command rsync not found: ")+str(e))
             self.endSignal.emit(1)
             return
         except ValueError as e:
-            self.lvM.emit("Error in rsync parameters: "+str(e))
+            self.lvM.emit(self.tr("Error in rsync parameters: ")+str(e))
             self.endSignal.emit(2)
             return
         except Exception as e:
             # Unknown error in rsync
-            self.lvM.emit("Error in rsync: "+str(e))
+            self.lvM.emit(self.tr("Error in rsync: ")+str(e))
             self.endSignal.emit(3)
             return
         process.poll()
@@ -298,14 +298,14 @@ def findRelease(releasePath, password):        #   List the remote list of relea
                 process = Popen(commande, shell=False, stdout=PIPE, stderr=PIPE)
         except OSError as e:
             code=1
-            return code, "Command rsync not found: "+str(e)
+            return code,self.tr("Command rsync not found: ")+str(e)
         except ValueError as e:
             code=2
-            return code,"Error in rsync parameters: "+str(e)
+            return code,self.tr("Error in rsync parameters: ")+str(e)
         except Exception as e:
             # Unknown error in rsync
             code=3
-            return code, "Error in rsync: "+str(e)
+            return code,self.tr("Error in rsync: ")+str(e)
         process.poll()
         while True :
             item=process.stdout.readline().rstrip().decode('unicode_escape')
